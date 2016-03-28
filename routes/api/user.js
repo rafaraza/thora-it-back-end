@@ -1,14 +1,13 @@
-// Dependencies
-var express = require('express');
-var router = express.Router();
-
 // Controllers
 var userCtrl = require('../../controllers/userCtrl');
 
-// Models
-var User = require('../../models/user');
+module.exports = function(app, express, passport) {
+  var usersRouter = express.Router();
 
-// Routes
-router.post('/', userCtrl.post);
+  // Routes
+  usersRouter.post('/signup', userCtrl.signup);
+  usersRouter.post('/authenticate', userCtrl.authenticate);
+  usersRouter.get('', passport.authenticate('jwt', {session: false}), userCtrl.userInfo);
 
-module.exports = router;
+  return usersRouter;
+};
